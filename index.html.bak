@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Content Generator</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary-color: #10b981;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-heading: #111827;
+            --text-body: #374151;
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb;
+            --danger-color: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-body);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-title {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        /* Card */
+        .card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Form */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .full-width {
+                grid-column: span 2;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+            font-size: 0.95rem;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            background-color: var(--input-bg);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background-color: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button.btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #4f46e5);
+            color: #fff;
+            border: none;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button.btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        button.btn-primary:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Results Section */
+        #results-container {
+            display: none;
+            /* Hidden by default */
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .meta-tag {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .article-content {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        .article-content h1,
+        .article-content h2,
+        .article-content h3 {
+            color: var(--text-heading);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .article-content h1 {
+            font-size: 2rem;
+        }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+        }
+
+        .article-content h3 {
+            font-size: 1.25rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1rem;
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 0.25rem;
+        }
+
+        .faq-answer {
+            color: var(--text-body);
+        }
+
+        /* Copy Button */
+        .actions-bar {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: flex-end;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-body);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Utility */
+        .hidden {
+            display: none !important;
+        }
+
+        .error-message {
+            background-color: #fef2f2;
+            border-left: 4px solid var(--danger-color);
+            color: #b91c1c;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.25rem;
+            display: none;
+        }
+
+        .word-count {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-right: auto;
+            align-self: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-title">SEO Genie</div>
+            <p class="subtitle">AI-Powered Content Generator for Modern Professionals</p>
+        </header>
+
+        <!-- Display Error Messages -->
+        <div id="error-box" class="error-message"></div>
+
+        <!-- Input Form -->
+        <div class="card" id="form-card">
+            <form id="seo-form">
+                <div class="form-grid">
+                    <!-- Topic -->
+                    <div class="form-group full-width">
+                        <label for="topic">Topic / Main Idea *</label>
+                        <input type="text" id="topic" name="topic"
+                            placeholder="e.g. Sustainable Gardening in Small Spaces" required>
+                    </div>
+
+                    <!-- Target Audience -->
+                    <div class="form-group">
+                        <label for="audience">Target Audience</label>
+                        <select id="audience" name="audience">
+                            <option value="General Public">General Public</option>
+                            <option value="Professionals/Experts">Professionals / Experts</option>
+                            <option value="Beginners/Students">Beginners / Students</option>
+                            <option value="Small Business Owners">Small Business Owners</option>
+                        </select>
+                    </div>
+
+                    <!-- Search Intent -->
+                    <div class="form-group">
+                        <label for="searchIntent">Search Intent</label>
+                        <select id="searchIntent" name="searchIntent">
+                            <option value="Informational">Informational (How-to, Why)</option>
+                            <option value="Transactional">Transactional (Buy, Sign up)</option>
+                            <option value="Commercial">Commercial Investigation (Best X vs Y)</option>
+                            <option value="Navigational">Navigational (Brand Search)</option>
+                        </select>
+                    </div>
+
+                    <!-- Country -->
+                    <div class="form-group">
+                        <label for="country">Country / Region</label>
+                        <input type="text" id="country" name="country" placeholder="e.g. USA, UK, Global"
+                            value="Global">
+                    </div>
+
+                    <!-- Language -->
+                    <div class="form-group">
+                        <label for="language">Language</label>
+                        <select id="language" name="language">
+                            <option value="English">English</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="French">French</option>
+                            <option value="German">German</option>
+                            <option value="Portuguese">Portuguese</option>
+                            <option value="Italian">Italian</option>
+                        </select>
+                    </div>
+
+                    <!-- Primary Keyword -->
+                    <div class="form-group">
+                        <label for="primaryKeyword">Primary Keyword *</label>
+                        <input type="text" id="primaryKeyword" name="primaryKeyword"
+                            placeholder="e.g. urban gardening tips" required>
+                    </div>
+
+                    <!-- Secondary Keywords -->
+                    <div class="form-group full-width">
+                        <label for="secondaryKeywords">Secondary Keywords (Comma separated)</label>
+                        <textarea id="secondaryKeywords" name="secondaryKeywords"
+                            placeholder="small balcony ideas, vertical planting, container garden soil..."></textarea>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <button type="submit" class="btn-primary" style="width: 100%;">
+                        <span id="btn-text">Generate SEO Content</span>
+                        <div id="btn-spinner" class="spinner hidden"></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results Display -->
+        <div id="results-container" class="card">
+            <div class="results-header">
+                <h2 class="results-title">Generated Content</h2>
+                <span class="meta-tag">AI Generated</span>
+            </div>
+
+            <div id="content-display" class="article-content">
+                <!-- Content will be injected here -->
+            </div>
+
+            <div class="actions-bar">
+                <span id="word-count" class="word-count">0 words</span>
+                <button id="copy-btn" class="btn-outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                        <path
+                            d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                    </svg>
+                    Copy to Clipboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const WEBHOOK_URL = 'https://n8n.srv1184730.hstgr.cloud/webhook/seo-content';
+
+        // Elements
+        const form = document.getElementById('seo-form');
+        const btnText = document.getElementById('btn-text');
+        const btnSpinner = document.getElementById('btn-spinner');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const resultsContainer = document.getElementById('results-container');
+        const contentDisplay = document.getElementById('content-display');
+        const errorBox = document.getElementById('error-box');
+        const copyBtn = document.getElementById('copy-btn');
+        const wordCountDisplay = document.getElementById('word-count');
+
+        // Simple Markdown Parser
+        function parseMarkdown(markdownText) {
+            if (!markdownText) return '';
+
+            // Escape HTML
+            let html = markdownText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            // Headers
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+            // Bold and Italic
+            html = html.replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>');
+            html = html.replace(/\*(.*)\*/gim, '<em>$1</em>');
+
+            // Unordered Lists
+            // Replace lines starting with - or * with <li>
+            html = html.replace(/^\s*[-*]\s+(.*)$/gim, '<li>$1</li>');
+            // Wrap <li> elements in <ul> (simple heuristic: look for sequences of <li>)
+            // Note: Logic for wrapping simple lists in JS regex is tricky without state, ensuring adjacent lis are grouped.
+            // We will just leave them as li elements block-styled for now or wrap non-header lines in <p>.
+
+            // Blockquotes
+            html = html.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+
+            // Line breaks (paragraphs)
+            // Split by double newlines to create paragraphs
+            let paragraphs = html.split(/\n\s*\n/);
+
+            html = paragraphs.map(p => {
+                if (p.trim().match(/^(<h|<li|<blockquote)/)) {
+                    // If it starts with a tag we already processed, don't wrap in <p>
+                    // We wrap <li> clusters in <ul> here if possible, but simplest is just checking if it is a list item
+                    if (p.trim().startsWith('<li>')) {
+                        return `<ul>${p}</ul>`;
+                    }
+                    return p;
+                }
+                return `<p>${p.trim().replace(/\n/g, '<br>')}</p>`;
+            }).join('');
+
+            return html;
+        }
+
+        // Handlers
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Reset UI
+            errorBox.style.display = 'none';
+            resultsContainer.style.display = 'none';
+
+            // Loading State
+            submitBtn.disabled = true;
+            btnText.textContent = 'Generating...';
+            btnSpinner.classList.remove('hidden');
+
+            // Gather Data
+            const formData = new FormData(form);
+            const requestBody = {
+                topic: formData.get('topic'),
+                audience: formData.get('audience'),
+                country: formData.get('country'),
+                language: formData.get('language'),
+                primaryKeyword: formData.get('primaryKeyword'),
+                secondaryKeywords: formData.get('secondaryKeywords'),
+                searchIntent: formData.get('searchIntent')
+            };
+
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Expected data structure from n8n-nodes-langchain.openAi usually has 'content' or 'text'
+                // The user provided node shows "values": [{"content": ...}]
+                // Depending on how "Respond to Webhook" is configured, it might return the whole "allIncomingItems" 
+                // wrapped in an array, or just the output.
+                // Let's attempt to find the content string flexibly.
+
+                let generatedText = '';
+
+                if (Array.isArray(data) && data[0] && data[0].content) {
+                    generatedText = data[0].content;
+                } else if (data.content) {
+                    generatedText = data.content;
+                } else if (data.output) {
+                    generatedText = data.output;
+                } else {
+                    generatedText = JSON.stringify(data, null, 2); // Fallback debug
+                }
+
+                // Render Results
+                contentDisplay.innerHTML = parseMarkdown(generatedText);
+
+                // Calculate word count
+                const wordCount = generatedText.split(/\s+/).filter(w => w.length > 0).length;
+                wordCountDisplay.textContent = `${wordCount} words`;
+
+                resultsContainer.style.display = 'block';
+
+                // Smooth scroll to results
+                resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            } catch (error) {
+                console.error(error);
+                errorBox.textContent = `Failed to generate content: ${error.message}. Please check your connection or webhook URL.`;
+                errorBox.style.display = 'block';
+            } finally {
+                // Restore Button State
+                submitBtn.disabled = false;
+                btnText.textContent = 'Generate SEO Content';
+                btnSpinner.classList.add('hidden');
+            }
+        });
+
+        // Copy Functionality
+        copyBtn.addEventListener('click', () => {
+            const text = contentDisplay.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                </svg>
+                Copied!
+            `;
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy', err);
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
