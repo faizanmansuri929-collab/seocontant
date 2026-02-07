@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Genie - AI Powered Content</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <a href="index.html" style="text-decoration: none;">
+                <div class="logo-title">SEO Genie</div>
+            </a>
+            <p class="subtitle">AI-Powered Content Generator for Modern Professionals</p>
+        </header>
+
+        <section class="hero">
+            <h1>Unlock Your Content Potential</h1>
+            <p>Generate SEO-optimized articles, blog posts, and marketing copy in seconds with our advanced AI engine.
+            </p>
+
+            <a href="login.html" class="btn-primary"
+                style="display: inline-flex; text-decoration: none; width: auto; padding: 1rem 3rem;">
+                Get Started
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </section>
+
+        <div
+            style="margin-top: 4rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+            <div class="card" style="text-align: center;">
+                <h3>🚀 Fast Generation</h3>
+                <p>Get content in seconds, not hours.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <h3>🎯 SEO Optimized</h3>
+                <p>Keywords naturally integrated for better ranking.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <h3>🌍 Multi-language</h3>
+                <p>Support for English, Spanish, French, and more.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // If already logged in, redirect to app
+        if (Auth.isAuthenticated()) {
+            window.location.href = 'app.html';
+        }
+    </script>
+</body>
+
+</html>
